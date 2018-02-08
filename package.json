@@ -1,0 +1,24 @@
+{
+    "author": "dan1510123@gmail.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "nextcwru",
+    "pebble": {
+        "displayName": "NEXTCWRU",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt"
+        ],
+        "uuid": "08b1415e-9a6f-42b4-b1a6-d351de41d48e",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}

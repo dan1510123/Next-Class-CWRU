@@ -23,9 +23,9 @@ static void update_time() {
 	// Display this time on the TextLayer
 	text_layer_set_text(s_time_layer, buffer);
 
-	int currh = 19;//((buffer[2] - '0')*10 + (buffer[3] - '0')*1);
-	int currm = 25;//((buffer[5] - '0')*10 + (buffer[6] - '0')*1);
-	int currd = 3;//((buffer[0] - '0')*1);
+	int currh = ((buffer[2] - '0')*10 + (buffer[3] - '0')*1);
+	int currm = ((buffer[5] - '0')*10 + (buffer[6] - '0')*1);
+	int currd = ((buffer[0] - '0')*1);
 
 	// nothing for Sundays
 	if(currd == 0) {

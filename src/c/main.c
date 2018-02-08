@@ -23,8 +23,8 @@ static void update_time() {
 	// Display this time on the TextLayer
 	text_layer_set_text(s_time_layer, buffer);
 
-	int currh = 16;//((buffer[2] - '0')*10 + (buffer[3] - '0')*1);
-	int currm = 50;//((buffer[5] - '0')*10 + (buffer[6] - '0')*1);
+	int currh = 19;//((buffer[2] - '0')*10 + (buffer[3] - '0')*1);
+	int currm = 25;//((buffer[5] - '0')*10 + (buffer[6] - '0')*1);
 	int currd = 3;//((buffer[0] - '0')*1);
 
 	// nothing for Sundays
@@ -33,7 +33,7 @@ static void update_time() {
 		snprintf(text, sizeof(text), "a while...");
 	}
 
-	// for Mondays and Fridays
+	// for Mondays, Wednesdays, and Fridays
 	else if(currd == 1 || currd == 3 || currd == 5) {
     // ENGR 210 Circuits
 		if ((currh > 6 && currh <= 9) || (currh == 9 && currm < 30)) {
@@ -46,8 +46,19 @@ static void update_time() {
 			snprintf(text, sizeof(text), "%d min!",value);
 			text_layer_set_text(just_words, "Class ends in:");
 		}
+    // Java Office Hours Wed
+		else if (currd == 3 && (currh < 10 || (currh == 10 && currm < 30))) {
+			int value = 30 - currm + 60*(10 - currh);
+			snprintf(text, sizeof(text), "%d min!",value);
+			text_layer_set_text(just_words, "Office Hours in:");
+		}
+		else if (currd == 3 && (currh < 11 || (currh == 11 && currm < 30))) {
+			int value = 30 - currm + 60 * (11 - currh);
+			snprintf(text, sizeof(text), "%d min!",value);
+			text_layer_set_text(just_words, "Times up in:");
+		}
     // EECS 338 OS
-		else if (currh < 14 || (currh <= 14 && currm < 15)) {
+		else if (currh < 14 || (currh == 14 && currm < 15)) {
 			int value = 15 - currm + 60*(14 - currh);
 			snprintf(text, sizeof(text), "%d min!",value);
 			text_layer_set_text(just_words, "EECS338 in:");
@@ -90,44 +101,11 @@ static void update_time() {
 			snprintf(text, sizeof(text), "%d min!",value);
 			text_layer_set_text(just_words, "Java Lab 2 ends in:");
 		}
-		else {
-			snprintf(text, sizeof(text), "a while...");
-			text_layer_set_text(just_words, "Obligations in:");
-		}
-	}
-
-	// for Tuesdays
-	else if(currd == 2) {
-		if(currh > 6 && currh < 14) {
-			int value = (14 - currh)*60 + 30 - currm;
+    // Turn in Circuits HW
+    else if (currd == 3 && (currh < 23 || (currh == 23 && currm < 59))) {
+			int value = 59 - currm + 60*(23 - currh);
 			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "ENGR Recitation in:");
-
-		}
-		else if (currh == 14 && currm<30) {
-			int value = 30 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "ENGR Recitation in:");
-		}
-		else if (currh == 14) {
-			int value = 60-currm+20;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Recitation ends in:");
-		}
-		else if (currh == 15 && currm < 20) {
-			int value = 20 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Recitation ends in:");
-		}
-		else if (currh == 15) {
-			int value = 60 - currm + 300;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Ultimate in:");
-		}
-		else if (currh >=16 && currh <=20) {
-			int value = 60 - currm + (20-currh)*60;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Ultimate in:");
+			text_layer_set_text(just_words, "Circuits HW DUE in:");
 		}
 		else {
 			snprintf(text, sizeof(text), "a while...");
@@ -135,127 +113,56 @@ static void update_time() {
 		}
 	}
 
-	else if(currd == 4) {
-
-		if(currh > 6 && currh < 10) {
-			int value = (10 - currh)*60 - currm;
+	// for Tuesdays and Thursdays
+	else if(currd == 2 || currd == 4) {
+    // EECS 290 Computer Gaming
+		if ((currh > 6 && currh <= 8) || (currh == 8 && currm < 30)) {
+			int value = 30 - currm + 60 * (8 - currh);
 			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "EECS Recitation in:");
+			text_layer_set_text(just_words, "EECS290 in:");
 		}
-		/*else if (currh == 20) {
-    int value = 60;
-  snprintf(text, sizeof(text), "%d min!", value);
-  text_layer_set_text(just_words, "EECS Recitation in:");
-  }*/
-		else if (currh == 10 && currm<50) {
-			int value = 50 - currm;
+		else if (currh < 9 || (currh == 9 && currm < 45)) {
+			int value = 20 - currm + 60 * (10 - currh);
 			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Recitation ends in:");
+			text_layer_set_text(just_words, "Class ends in:");
 		}
-		else if (currh == 10 && currm<60) {
-			int value = 15 + 60 - currm;
+    // EECS 391 Artificial Intelligence
+		else if (currh < 10 || (currh == 10 && currm < 0)) {
+			int value = 0 - currm + 60*(10 - currh);
 			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Tutoring leaves in:");
+			text_layer_set_text(just_words, "EECS 391 AI in:");
 		}
-		else if (currh == 11 && currm<15) {
-			int value = 15 - currm;
+		else if (currh < 11 || (currh == 11 && currm < 15)) {
+			int value = 15 - currm + 60 * (11 - currh);
 			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Tutoring leaves in:");
+			text_layer_set_text(just_words, "Class ends in:");
+		}
+    // ENGR 210 Circuits Lab Tues
+		else if (currd == 2 && (currh < 14 || (currh == 14 && currm < 30))) {
+			int value = 30 - currm + 60*(14 - currh);
+			snprintf(text, sizeof(text), "%d min!",value);
+			text_layer_set_text(just_words, "Circuits Lab in:");
+		}
+		else if (currd == 2 && (currh < 16 || (currh == 16 && currm < 30))) {
+			int value = 30 - currm + 60 * (16 - currh);
+			snprintf(text, sizeof(text), "%d min!",value);
+			text_layer_set_text(just_words, "Lab ends in:");
+		}
+    // Turn in OS HW on Tues
+    else if (currd == 2 && (currh < 23 || (currh == 23 && currm < 0))) {
+			int value = 0 - currm + 60*(23 - currh);
+			snprintf(text, sizeof(text), "%d min!",value);
+			text_layer_set_text(just_words, "OS HW DUE in:");
 		}
 		else {
 			snprintf(text, sizeof(text), "a while...");
 			text_layer_set_text(just_words, "Obligations in:");
 		}
-	}
-
-	else if(currd == 3) {
-		if(currh == 9 && currm < 30) {
-			int value = 30 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "MATH 223 in:");
-		}
-		else if (currh > 6 && currh < 9) {
-			int value = (9 - currh)*60 + 30 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "MATH 223 in:");
-		}
-		else if (currh == 9) {
-			int value = 60 - currm + 20;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "MATH ends in:");
-		}
-		else if (currh == 10 && currm < 20) {
-			int value = 20 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "MATH ends in:");
-		}
-		else if (currh == 10 && currm < 35) {
-			int value = (35 - currm);
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "ENGR 145 in:");
-		}
-		else if (currh == 10) {
-			int value = 60 - currm + 25;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "ENGR ends in:");
-		}
-		else if (currh == 11 && currm<25) {
-			int value = 25 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "ENGR ends in:");
-		}
-		else if (currh == 11) {
-			int value = 60 - currm+45;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Fourth Hour in:");
-		}
-		else if (currh ==12 && currh < 45) {
-			int value = 45 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "Fourth Hour in:");
-		}
-		else if (currh ==12) {
-			int value = 60 - currm + 45;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "4th Hour ends in:");
-		}
-		else if (currh == 13 && currm < 45) {
-			int value = 45-currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "4th Hour ends in:");
-		}
-		else if (currh == 13) {
-			int value = 30-currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "EECS 132 in:");
-		}
-		else if (currh == 14 && currm < 15) {
-			int value = 15 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "EECS 132 in:");
-
-		}
-		else if (currh == 14) {
-			int value = 60 - currm+5;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "EECS ends in:");
-		}
-		else if (currh == 15 && currm <5) {
-			int value = 5 - currm;
-			snprintf(text, sizeof(text), "%d min!",value);
-			text_layer_set_text(just_words, "EECS ends in:");
-		}
-
-		else {
-			snprintf(text, sizeof(text), "a while...");
-		}
-
 	}
 
 	else {
-
 		snprintf(text, sizeof(text), "a while...");
-
+    text_layer_set_text(just_words, "Obligations in:");
 	}
 
 }
